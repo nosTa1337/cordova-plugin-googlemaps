@@ -62,6 +62,10 @@ var MarkerCluster = function (map, markerClusterOptions, _exec) {
     value: markerClusterOptions.boundsDraw === true,
     writable: false
   });
+  Object.defineProperty(self, 'sumLabels', {
+    value: markerClusterOptions.sumLabels,
+    writable: false
+  });
 
   if (self.boundsDraw) {
     self.map.addPolygon({
@@ -956,17 +960,18 @@ Object.defineProperty(MarkerCluster.prototype, '_redraw', {
 
         unionedMarkers.forEach(function (cluster) {
           var countCluster = 0;
-          cluster._markerArray.forEach(function (marker) {
-            var data =  marker.get('data');
-            if (data && data.data && data.data.operative == 'ECHARGE') {
-              countCluster = countCluster + data.data.label
-            }
-          });
-
-          if (countCluster == 0) {
+          if (self.sumLabels) {
+            cluster._markerArray.forEach(function (marker) {
+              var data =  marker.get('data');
+              if (data) {
+                countCluster = countCluster + self.getClusterLabelData(self, data, self.sumLabels)
+              } else {
+                countCluster = countCluster + 1;
+              }
+            });
+          } else {
             countCluster = cluster.getItemLength();
           }
-
           var icon = self.getClusterIcon(cluster),
             clusterOpts = {
               'count': countCluster,
@@ -1109,6 +1114,24 @@ Object.defineProperty(MarkerCluster.prototype, '_redraw', {
     //               });
   }
 });
+
+MarkerCluster.prototype.getClusterLabelData = function (self, data, key) {
+  var self = self;
+  var index = key.indexOf(".");
+  var firstPart = null;
+  var secondPart = null;
+  if (index != -1) {
+    firstPart = key.substr(0, index)
+    secondPart = key.substr(index + 1)
+  } else {
+    firstPart = key.substr(index + 1)
+  }
+  if (secondPart) {
+    return self.getClusterLabelData(self, data[firstPart], secondPart)
+  } else {
+    return data[firstPart];
+  }
+}
 
 MarkerCluster.prototype.getClusterIcon = function (cluster) {
   var self = this,
