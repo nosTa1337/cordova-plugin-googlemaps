@@ -955,13 +955,24 @@ Object.defineProperty(MarkerCluster.prototype, '_redraw', {
         }
 
         unionedMarkers.forEach(function (cluster) {
+          var countCluster = 0;
+          cluster._markerArray.forEach(function (marker) {
+            var data =  marker.get('data');
+            if (data && data.data && data.data.operative == 'ECHARGE') {
+              countCluster = countCluster + data.data.label
+            }
+          });
+
+          if (countCluster == 0) {
+            countCluster = cluster.getItemLength();
+          }
 
           var icon = self.getClusterIcon(cluster),
             clusterOpts = {
-              'count': cluster.getItemLength(),
+              'count': countCluster,
               'position': cluster.getBounds().getCenter(),
               '__pgmId': cluster.getId()
-            };
+          };
 
           if (self.debug) {
             clusterOpts.geocell = cluster.geocell;
