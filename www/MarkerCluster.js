@@ -964,7 +964,7 @@ Object.defineProperty(MarkerCluster.prototype, '_redraw', {
             cluster._markerArray.forEach(function (marker) {
               var data =  marker.get('data');
               if (data) {
-                countCluster = countCluster + self.getClusterLabelData(self, data, self.sumLabels)
+                countCluster = countCluster + self.getClusterLabelData(data, self.sumLabels)
               } else {
                 countCluster = countCluster + 1;
               }
@@ -1115,22 +1115,10 @@ Object.defineProperty(MarkerCluster.prototype, '_redraw', {
   }
 });
 
-MarkerCluster.prototype.getClusterLabelData = function (self, data, key) {
-  var self = self;
-  var index = key.indexOf(".");
-  var firstPart = null;
-  var secondPart = null;
-  if (index != -1) {
-    firstPart = key.substr(0, index)
-    secondPart = key.substr(index + 1)
-  } else {
-    firstPart = key.substr(index + 1)
-  }
-  if (secondPart) {
-    return self.getClusterLabelData(self, data[firstPart], secondPart)
-  } else {
-    return data[firstPart];
-  }
+MarkerCluster.prototype.getClusterLabelData = function (data, key) {
+  var arr = key.split(".");
+  while(arr.length && (data = data[arr.shift()]));
+  return data;
 }
 
 MarkerCluster.prototype.getClusterIcon = function (cluster) {
