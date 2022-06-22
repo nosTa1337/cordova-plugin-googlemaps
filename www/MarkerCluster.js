@@ -66,6 +66,10 @@ var MarkerCluster = function (map, markerClusterOptions, _exec) {
     value: markerClusterOptions.sumLabels,
     writable: false
   });
+  Object.defineProperty(self, 'getIcon', {
+    value: markerClusterOptions.getIcon,
+    writable: false
+  });
 
   if (self.boundsDraw) {
     self.map.addPolygon({
@@ -972,7 +976,7 @@ Object.defineProperty(MarkerCluster.prototype, '_redraw', {
           } else {
             countCluster = cluster.getItemLength();
           }
-          var icon = self.getClusterIcon(cluster),
+          var icon =  self.getIcon ?  self.getIcon(cluster) : self.getClusterIcon(cluster),
             clusterOpts = {
               'count': countCluster,
               'position': cluster.getBounds().getCenter(),

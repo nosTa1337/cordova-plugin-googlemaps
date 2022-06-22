@@ -1351,7 +1351,8 @@ Map.prototype.addMarkerCluster = function(markerClusterOptions, callback) {
     'maxZoomLevel': Math.min(markerClusterOptions.maxZoomLevel || 15, 18),
     'debug': markerClusterOptions.debug === true,
     'boundsDraw': common.defaultTrueOption(markerClusterOptions.boundsDraw),
-    'sumLabels': markerClusterOptions.sumLabels
+    'sumLabels': markerClusterOptions.sumLabels,
+    'getIcon': markerClusterOptions.getIcon
   }, exec);
   var markerClusterId = markerCluster.getId();
   self.OVERLAYS[markerClusterId] = markerCluster;
