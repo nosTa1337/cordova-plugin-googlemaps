@@ -70,6 +70,11 @@ var MarkerCluster = function (map, markerClusterOptions, _exec) {
     value: markerClusterOptions.getIcon,
     writable: false
   });
+  // Callback to receive event and if return true will stop the zoomed
+  Object.defineProperty(self, 'clickCluster', {
+    value: markerClusterOptions.clickCluster,
+    writable: false
+  });
 
   if (self.boundsDraw) {
     self.map.addPolygon({
@@ -208,6 +213,9 @@ MarkerCluster.prototype.onClusterClicked = function (cluster) {
     return null;
   }
   var self = this;
+  if (self.clickCluster && self.clickCluster(cluster)) {
+    return null;
+  }
   var polygon = self.get('polygon');
   var bounds = cluster.getBounds();
   if (self.boundsDraw) {

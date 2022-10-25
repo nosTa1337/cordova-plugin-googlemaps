@@ -1352,7 +1352,8 @@ Map.prototype.addMarkerCluster = function(markerClusterOptions, callback) {
     'debug': markerClusterOptions.debug === true,
     'boundsDraw': common.defaultTrueOption(markerClusterOptions.boundsDraw),
     'sumLabels': markerClusterOptions.sumLabels,
-    'getIcon': markerClusterOptions.getIcon
+    'getIcon': markerClusterOptions.getIcon,
+    'clickCluster': markerClusterOptions.clickCluster
   }, exec);
   var markerClusterId = markerCluster.getId();
   self.OVERLAYS[markerClusterId] = markerCluster;
