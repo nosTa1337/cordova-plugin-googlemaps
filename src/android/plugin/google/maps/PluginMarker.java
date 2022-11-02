@@ -1231,6 +1231,7 @@ public class PluginMarker extends MyPlugin implements MyPluginInterface  {
     int cHeight = rect.height();
     int cWidth = rect.width();
     paint.setTextAlign(Paint.Align.LEFT);
+    // getTextBounds fail sometimes, but with the measureText before works fine
     float measureText = paint.measureText(text);
     paint.getTextBounds(text, 0, text.length(), rect);
     float x = cWidth / 2f - rect.width() / 2f - rect.left;
