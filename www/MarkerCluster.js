@@ -234,7 +234,7 @@ MarkerCluster.prototype.onClusterClicked = function (cluster) {
     polygon.setVisible(true);
   }
   var zoomLevel = computeZoom(cluster.getBounds(), self.map.getDiv());
-  zoomLevel += zoomLevel === self.map.get('camera_zoom') ? 1 : 0;
+  zoomLevel += ((zoomLevel - self.map.get('camera_zoom')) < 1) ? 1 : 0;
   self.map.animateCamera({
     target: cluster.getBounds().getCenter(),
     zoom: zoomLevel,
