@@ -108,24 +108,6 @@
 @end
 
 
-/*
-@implementation CDVCommandDelegateImpl (GoogleMapsPlugin)
-
-- (void)hookSendPluginResult:(CDVPluginResult*)result callbackId:(NSString*)callbackId {
-
-  NSRange pos = [callbackId rangeOfString:@"://"];
-  if (pos.location == NSNotFound) {
-    [self sendPluginResult:result callbackId:callbackId];
-  } else {
-    NSArray *tmp = [callbackId componentsSeparatedByString:@"://"];
-    NSString *pluginName = [tmp objectAtIndex:0];
-    CDVPlugin<IPluginProtocol> *plugin = [self getCommandInstance:pluginName];
-    [plugin onHookedPluginResult:result callbackId:callbackId];
-  }
-
-}
-@end
-*/
 
 static char CAAnimationGroupBlockKey;
 @implementation CAAnimationGroup (Blocks)
@@ -149,17 +131,6 @@ static char CAAnimationGroupBlockKey;
 
 @end
 
-
-@implementation MainViewController (CDVViewController)
-#if CORDOVA_VERSION_MIN_REQUIRED < __CORDOVA_4_0_0
-- (void)webViewDidFinishLoad:(UIWebView*)theWebView
-{
-  theWebView.backgroundColor = [UIColor clearColor];
-  theWebView.opaque = NO;
-  return [super webViewDidFinishLoad:theWebView];
-}
-#endif
-@end
 @implementation PluginUtil
 
 + (BOOL)isPolygonContains:(GMSPath *)path coordinate:(CLLocationCoordinate2D)coordinate projection:(GMSProjection *)projection {
