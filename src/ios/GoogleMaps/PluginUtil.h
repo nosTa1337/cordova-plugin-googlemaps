@@ -20,7 +20,6 @@
 #import "IPluginProtocol.h"
 #import "PluginViewController.h"
 #import <Cordova/CDVCommandDelegate.h>
-#import <Cordova/CDVCommandDelegateImpl.h>
 
 typedef void (^MYCompletionHandler)(NSError *error);
 
@@ -29,11 +28,6 @@ typedef void (^MYCompletionHandler)(NSError *error);
 #define CASE(str) if ([__s__ isEqualToString:(str)])
 #define SWITCH(s) for (NSString *__s__ = (s); __s__; __s__ = nil)
 #define DEFAULT
-
-#define UIColorFromRGB(rgbValue) [UIColor \
-    colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
-    green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \
-    blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 @interface UIView (GoogleMapsPlugin)
 - (void)setFrameWithDictionary:(NSDictionary *) params;
@@ -52,20 +46,6 @@ typedef void (^MYCompletionHandler)(NSError *error);
 @interface UIImage (GoogleMapsPlugin)
 - (UIImage*)imageByApplyingAlpha:(CGFloat) alpha;
 - (UIImage *)resize:(CGFloat)width height:(CGFloat)height;
-@end
-
-@interface CDVCommandDelegateImpl (GoogleMapsPlugin)
-- (void)hookSendPluginResult:(CDVPluginResult*)result callbackId:(NSString*)callbackId;
-@end
-
-//
-// Override the webViewDidFinishLoad
-// http://stackoverflow.com/questions/5272451/overriding-methods-using-categories-in-objective-c#5272612
-//
-@interface MainViewController (CDVViewController)
-#if CORDOVA_VERSION_MIN_REQUIRED < __CORDOVA_4_0_0
-- (void)webViewDidFinishLoad:(UIWebView*)theWebView;
-#endif
 @end
 
 //
